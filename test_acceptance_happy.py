@@ -3,6 +3,7 @@
 from io import BytesIO
 import pytest
 
+
 def test_acceptance_successful_upload(client):
     """
     Test Case: Successful Upload of a Valid Image File
@@ -17,9 +18,7 @@ def test_acceptance_successful_upload(client):
     img_data.name = "test_image.jpg"
 
     response = client.post(
-        "/prediction",
-        data={"file": (img_data, img_data.name)},
-        content_type="multipart/form-data"
+        "/prediction", data={"file": (img_data, img_data.name)}, content_type="multipart/form-data"
     )
 
     assert response.status_code == 200
@@ -40,9 +39,7 @@ def test_acceptance_valid_large_image(client):
     img_data.name = "large_image.jpg"
 
     response = client.post(
-        "/prediction",
-        data={"file": (img_data, img_data.name)},
-        content_type="multipart/form-data"
+        "/prediction", data={"file": (img_data, img_data.name)}, content_type="multipart/form-data"
     )
 
     assert response.status_code == 200
@@ -62,9 +59,7 @@ def test_acceptance_valid_image_size_upload(client):
     img_data.name = "large_image.jpg"
 
     response = client.post(
-        "/prediction",
-        data={"file": (img_data, img_data.name)},
-        content_type="multipart/form-data"
+        "/prediction", data={"file": (img_data, img_data.name)}, content_type="multipart/form-data"
     )
 
     assert response.status_code == 200

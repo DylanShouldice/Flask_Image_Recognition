@@ -4,6 +4,7 @@ from io import BytesIO
 import pytest
 from threading import Thread
 
+
 # Helper function for concurrent image uploads
 def upload_image(client, img_data):
     """
@@ -12,10 +13,9 @@ def upload_image(client, img_data):
     - Usage: Called in separate threads during concurrent tests.
     """
     client.post(
-        "/prediction",
-        data={"file": (img_data, img_data.name)},
-        content_type="multipart/form-data"
+        "/prediction", data={"file": (img_data, img_data.name)}, content_type="multipart/form-data"
     )
+
 
 # 1. Edge Case: Uploading a Large Image File
 def test_edge_case_large_image_upload(client):
@@ -30,11 +30,12 @@ def test_edge_case_large_image_upload(client):
     response = client.post(
         "/prediction",
         data={"file": (large_img_data, large_img_data.name)},
-        content_type="multipart/form-data"
+        content_type="multipart/form-data",
     )
 
     # Assert that the system can process large image files
     assert b"Prediction" in response.data  # Adjust based on actual prediction content
+
 
 # 2. Edge Case: Uploading an Image with Missing or Incorrect Metadata
 def test_edge_case_invalid_metadata(client):
@@ -47,13 +48,12 @@ def test_edge_case_invalid_metadata(client):
     img_data.name = "image_no_metadata.jpg"
 
     response = client.post(
-        "/prediction",
-        data={"file": (img_data, img_data.name)},
-        content_type="multipart/form-data"
+        "/prediction", data={"file": (img_data, img_data.name)}, content_type="multipart/form-data"
     )
 
     # Assert that the system processes the image even without metadata
     assert b"Prediction" in response.data  # Adjust based on actual behavior
+
 
 # 3. Edge Case: Uploading an Image with Non-Standard File Extensions
 def test_edge_case_non_standard_image_extensions(client):
@@ -66,13 +66,12 @@ def test_edge_case_non_standard_image_extensions(client):
     img_data.name = "non_standard_image.webp"  # Non-standard extension
 
     response = client.post(
-        "/prediction",
-        data={"file": (img_data, img_data.name)},
-        content_type="multipart/form-data"
+        "/prediction", data={"file": (img_data, img_data.name)}, content_type="multipart/form-data"
     )
 
     # Ensure the system processes the file despite the non-standard extension
     assert b"Prediction" in response.data  # Adjust based on actual prediction content
+
 
 # 4. Edge Case: Uploading a Sequence of Images for Multi-Step Processing
 def test_edge_case_sequential_image_uploads(client):
@@ -91,19 +90,20 @@ def test_edge_case_sequential_image_uploads(client):
     response1 = client.post(
         "/prediction",
         data={"file": (img_data1, img_data1.name)},
-        content_type="multipart/form-data"
+        content_type="multipart/form-data",
     )
 
     # Second upload
     response2 = client.post(
         "/prediction",
         data={"file": (img_data2, img_data2.name)},
-        content_type="multipart/form-data"
+        content_type="multipart/form-data",
     )
 
     # Ensure that each upload processed correctly
     assert b"Prediction" in response1.data
     assert b"Prediction" in response2.data
+
 
 # 5. Edge Case: Uploading with Unexpected Headers
 def test_edge_case_unexpected_headers(client):
@@ -120,11 +120,12 @@ def test_edge_case_unexpected_headers(client):
         "/prediction",
         data={"file": (img_data, img_data.name)},
         content_type="multipart/form-data",
-        headers={"X-Unexpected-Header": "value"}
+        headers={"X-Unexpected-Header": "value"},
     )
 
     # Assert that the upload is still processed correctly despite the unexpected header
     assert b"Prediction" in response.data
+
 
 # 6. Edge Case: Uploading an Image with HTTP/2
 def test_edge_case_upload_over_http2(client):
@@ -138,9 +139,7 @@ def test_edge_case_upload_over_http2(client):
 
     # Simulate uploading the image using HTTP/2 (client would need to support it)
     response = client.post(
-        "/prediction",
-        data={"file": (img_data, img_data.name)},
-        content_type="multipart/form-data"
+        "/prediction", data={"file": (img_data, img_data.name)}, content_type="multipart/form-data"
     )
 
     # Ensure that the image upload works successfully over HTTP/2

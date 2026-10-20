@@ -1,7 +1,30 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.4.0  # Use the latest stable version
+    rev: v6.0.0  # Use the latest stable version
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: debug-statements
+      - id: check-ast
+      - id: detect-private-key
+      - id: requirements-txt-fixer
+  # - repo: local
+  #   hooks:
+  #     - id: pylint
+  #       name: pylint
+  #       entry: .venv/Scripts/python.exe -m pylint
+  #       language: system
+  #       types: [python]
+  #       args: ["--rcfile=.pylintrc", "--score=no"]
+  #       require_serial: true
+
+  #     - id: pytest
+  #       name: pytest
+  #       entry: .venv/Scripts/python.exe -m pytest
+  #       language: system
+  #       pass_filenames: false
+  #       stages: [pre-push]
