@@ -12,8 +12,8 @@ repos:
       - id: check-ast
       - id: detect-private-key
       - id: requirements-txt-fixer
-  # - repo: local
-  #   hooks:
+  - repo: local
+    hooks:
   #     - id: pylint
   #       name: pylint
   #       entry: .venv/Scripts/python.exe -m pylint
@@ -22,9 +22,9 @@ repos:
   #       args: ["--rcfile=.pylintrc", "--score=no"]
   #       require_serial: true
 
-  #     - id: pytest
-  #       name: pytest
-  #       entry: .venv/Scripts/python.exe -m pytest
-  #       language: system
-  #       pass_filenames: false
-  #       stages: [pre-push]
+      - id: pytest
+        name: pytest
+        entry: .venv/Scripts/python.exe -m pytest
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
