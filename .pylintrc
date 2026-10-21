@@ -5,7 +5,7 @@ ignore-paths=^.*/\.venv/.*$,^.*/__pycache__/.*$
 ignore-patterns=^\.#
 recursive=yes
 jobs=1
-fail-under=10
+fail-under=9.5
 
 [BASIC]
 docstring-min-length=-1

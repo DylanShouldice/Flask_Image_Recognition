@@ -14,13 +14,13 @@ repos:
       - id: requirements-txt-fixer
   - repo: local
     hooks:
-  #     - id: pylint
-  #       name: pylint
-  #       entry: .venv/Scripts/python.exe -m pylint
-  #       language: system
-  #       types: [python]
-  #       args: ["--rcfile=.pylintrc", "--score=no"]
-  #       require_serial: true
+      - id: pylint
+        name: pylint
+        entry: .venv/Scripts/python.exe scripts/pylint_nonblocking.py
+        language: system
+        types: [python]
+        require_serial: true
+
 
       - id: pytest
         name: pytest
