@@ -7,7 +7,7 @@ targets = sys.argv[1:] or ["."]  # Staged Python files, or the project if none
 
 with report.open("w", encoding="utf-8") as output:
     result = subprocess.run(
-        [sys.executable, "-m", "pylint",
+        [sys.executable, "-m", "../pylint .",
          "--rcfile=.pylintrc", "--score=y", *targets],
         stdout=output,
         stderr=subprocess.STDOUT,
