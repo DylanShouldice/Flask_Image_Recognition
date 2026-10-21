@@ -1,18 +1,29 @@
+"""Run Pylint from the project root with the local score threshold."""
+
 from pathlib import Path
 import subprocess
 import sys
 
-report = Path("pylint.txt")
-targets = sys.argv[1:] or ["."]  # Staged Python files, or the project if none
+ROOT = Path(__file__).resolve().parents[1]
+REPORT = ROOT / "pylint.txt"
+COMMAND = [
+    sys.executable,
+    "-m",
+    "pylint",
+    f"--rcfile={ROOT / '.pylintrc'}",
+    "--score=y",
+    "--fail-under=9.5",
+    ".",
+]
 
-with report.open("w", encoding="utf-8") as output:
+with REPORT.open("w", encoding="utf-8") as output:
     result = subprocess.run(
-        [sys.executable, "-m", "../pylint .",
-         "--rcfile=.pylintrc", "--score=y", *targets],
-        stdout=output,
-        stderr=subprocess.STDOUT,
-        check=False,
+        COMMAND, cwd=ROOT, stdout=output, stderr=subprocess.STDOUT, check=False
     )
 
-print(f"Pylint exited with {result.returncode}; see {report}")
-# Exit 0 so pylint findings do not block the commit.
+for line in REPORT.read_text(encoding="utf-8").splitlines():
+    if line.startswith("Your code has been rated at"):
+        print(line)
+
+print(f"Pylint exited with {result.returncode}; see {REPORT}")
+raise SystemExit(result.returncode)

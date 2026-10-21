@@ -29,7 +29,7 @@ def test_prediction_missing_file(client):
         content_type="multipart/form-data",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 400
     assert b"File cannot be processed" in response.data
 
 

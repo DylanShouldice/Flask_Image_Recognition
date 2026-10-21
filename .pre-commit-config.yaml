@@ -19,6 +19,8 @@ repos:
         entry: .venv/Scripts/python.exe scripts/pylint_nonblocking.py
         language: system
         types: [python]
+        pass_filenames: false
+        always_run: true
         require_serial: true
 
 

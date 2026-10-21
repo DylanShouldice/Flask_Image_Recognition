@@ -1,6 +1,7 @@
 """ App.py houses the endpoints for the flask app. / = root, /prediction = prediction route. """
 # Importing required libs
 from flask import Flask, render_template, request
+from PIL import UnidentifiedImageError
 from model import preprocess_img, predict_result
 
 # Instantiating flask app
@@ -20,11 +21,14 @@ def predict_image_file():
     """Returns the prediction result of the uploaded image file."""
     try:
         if request.method == "POST":
-            img = preprocess_img(request.files["file"].stream)
+            uploaded_file = request.files.get("file")
+            if uploaded_file is None:
+                return render_template("result.html", err="File cannot be processed."), 400
+            img = preprocess_img(uploaded_file.stream)
             pred = predict_result(img)
             return render_template("result.html", predictions=str(pred))
 
-    except (FileNotFoundError, ValueError):
+    except (FileNotFoundError, ValueError, UnidentifiedImageError):
         error = "File cannot be processed."
         return render_template("result.html", err=error)
     return render_template("result.html", err="File cannot be processed.")

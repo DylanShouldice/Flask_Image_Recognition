@@ -83,7 +83,7 @@ def test_missing_file_returns_error_page(client):
         content_type="multipart/form-data",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 400
     assert b"File cannot be processed" in response.data
 
 
