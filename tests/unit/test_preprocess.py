@@ -1,3 +1,5 @@
+"""Tests for image preprocessing."""
+
 import numpy as np
 import pytest
 

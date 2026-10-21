@@ -1,4 +1,8 @@
+"""Integration tests for the Flask routes."""
+
 from io import BytesIO
+
+import pytest
 
 
 def test_home_page(client):
@@ -21,27 +25,17 @@ def test_prediction_success(mocked_client, sample_image_bytes):
     assert b"File cannot be processed" not in response.data
 
 
-def test_prediction_missing_file(client):
-    """Posting without a file should show the error message."""
-    response = client.post(
-        "/prediction",
-        data={},
-        content_type="multipart/form-data",
-    )
+@pytest.mark.parametrize(
+    ("file_contents", "expected_status"),
+    [(None, 400), (b"not an image", 200)],
+    ids=("missing-file", "invalid-image"),
+)
+def test_prediction_invalid_upload(client, file_contents, expected_status):
+    """Missing and invalid uploads should show the error message."""
+    data = {} if file_contents is None else {"file": (BytesIO(file_contents), "bad.jpg")}
+    response = client.post("/prediction", data=data, content_type="multipart/form-data")
 
-    assert response.status_code == 400
-    assert b"File cannot be processed" in response.data
-
-
-def test_prediction_invalid_image(client):
-    """Posting a non-image file should show the error message."""
-    response = client.post(
-        "/prediction",
-        data={"file": (BytesIO(b"not an image"), "bad.jpg")},
-        content_type="multipart/form-data",
-    )
-
-    assert response.status_code == 200
+    assert response.status_code == expected_status
     assert b"File cannot be processed" in response.data
 
 

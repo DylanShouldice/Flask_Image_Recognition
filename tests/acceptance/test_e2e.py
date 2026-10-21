@@ -1,3 +1,5 @@
+"""End-to-end tests for image upload and prediction."""
+
 import re
 from io import BytesIO
 from pathlib import Path
