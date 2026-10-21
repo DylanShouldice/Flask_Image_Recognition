@@ -36,7 +36,7 @@ jobs:
 
       - name: Run Pylint
         id: pylint
-        run: python -m pylint
+        run: python -m pylint .
 
       - name: Run pytest
         id: pytest
