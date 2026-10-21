@@ -14,7 +14,7 @@ no-docstring-rgx=^_
 [FORMAT]
 max-line-length=100
 indent-string='    '
-expected-line-ending-format=CRLF
+expected-line-ending-format=LF
 
 [IMPORTS]
 known-first-party=app,model
